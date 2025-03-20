@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'io.quarkus'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation 'io.quarkus:quarkus-rest-jackson'
+    implementation 'io.quarkiverse.groovy:quarkus-groovy-junit5:3.18.2'
+    implementation 'io.quarkus:quarkus-rest'
+    implementation 'io.quarkus:quarkus-smallrye-health'
+    implementation 'io.quarkus:quarkus-jackson'
+    implementation 'io.quarkiverse.quinoa:quarkus-quinoa:2.5.1'
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation 'org.jobrunr:quarkus-jobrunr:7.4.0'
+    implementation 'io.quarkus:quarkus-hibernate-orm-panache'
+    implementation 'io.quarkus:quarkus-agroal'
+    implementation 'io.quarkiverse.jdbc:quarkus-jdbc-sqlite:3.0.11'
+    implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-hibernate-orm'
+    testImplementation 'io.quarkus:quarkus-junit5'
+}
+
+group 'ac.uk.k253'
+version '0.0.1'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+test {
+    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+}
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+
+configurations {
+    compile {
+        exclude group: 'jakarta.ws.rs'
+        exclude module: 'javax.ws.rs-api'
+    }
+}
