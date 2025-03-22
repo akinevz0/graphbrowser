@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import type { Page } from '../pages';
 import { useLocation, type Location } from 'react-router-dom';
 import { useErrorBoundary } from 'react-error-boundary';
