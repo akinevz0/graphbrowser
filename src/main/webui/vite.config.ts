@@ -9,7 +9,7 @@ export default defineConfig({
   base: '',
   plugins: [react(), viteTsconfigPaths(), tailwindcss()],
   server: {
-    host: true,
+    host: '127.0.0.1',
     // this ensures that the browser opens upon server start
     open: true,
     // this sets a default port to 3000, you can change this
