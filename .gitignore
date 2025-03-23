@@ -40,3 +40,4 @@ nb-configuration.xml
 # TLS Certificates
 .certs/
 node_modules/
+graphbrowser.db
