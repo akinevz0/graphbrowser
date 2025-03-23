@@ -1,7 +1,5 @@
 import { Field } from '@base-ui-components/react/field';
-import type { FormEventHandler, KeyboardEventHandler } from 'react';
-
-
+import type { ClipboardEventHandler, KeyboardEventHandler } from 'react';
 
 const UrlInput = () => {
 
@@ -14,30 +12,28 @@ const UrlInput = () => {
         return `Invalid input URL: ${input}`.toString()
     }
 
-    const onInput: FormEventHandler = (event): void => {
-        const { target } = event
-        if (target instanceof HTMLInputElement)
-            console.log("input", target.value)
-    }
-
     const onKeyDown: KeyboardEventHandler = (event): void => {
         const { target, key } = event
         if (target instanceof HTMLInputElement)
-            if (key === "Enter")
-                redirect(`/page?q=${target.value}`, contains(target.dataset, "valid"))
+            if (key === "Enter") redirect(viewPage(target.value), contains(target.dataset, "valid"))
     }
 
+    const onPaste: ClipboardEventHandler = (event): void => {
+        const { target, clipboardData: { items: [text] } } = event
+        if (target instanceof HTMLInputElement)
+            text.getAsString((data) => redirect(viewPage(data), validateURL(data) === null))
+    }
+
+
     return <Field.Root validationMode="onChange" validate={validateURL} className="border border-gray-400 rounded-md py-2 mt-6 pr-2 pl-4">
-        <Field.Description children={<>Navigate to a page</>} />
+        <Field.Description children={<>Navigate to a page:</>} />
         <Field.Error match='badInput' />
         <Field.Validity children={({ error, errors }) => (
-            error ?
-                <> {errors.map((e, i) => <p key={i}>{e}</p>)} </> :
-                null
+            error ?  <> {errors.map((e, i) => <p key={i}>{e}</p>)} </> : null
         )} />
         <br />
-        <Field.Label className="mr-4" children="URL" />
-        <Field.Control className="border border-gray-400 rounded-md" onInput={onInput} onKeyDown={onKeyDown} />
+        <Field.Label className="mr-4" children="Paste or type a URL" />
+        <Field.Control className="border border-gray-400 rounded-md" onKeyDown={onKeyDown} onPasteCapture={onPaste} />
     </Field.Root>
 }
 export default UrlInput
@@ -49,4 +45,8 @@ function contains(dataset: Record<string, unknown>, value: string): boolean {
 const redirect = (to: string, whenTrue: boolean) => {
     if (!whenTrue || !to) return null
     window.location.href = to.toString()
+}
+
+function viewPage(value: string): string {
+    return `/page?q=${value}`
 }
