@@ -8,16 +8,8 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.*;
 
-import org.jboss.logging.Logger;
-
 @JavaBean
 public class ExternalProgram {
-
-    // jboss logger
-    private final static Logger LOGGER = Logger.getLogger(ExternalProgram.class);
-    private static final String PREFIX = "graphbrowser";
-    private static final Random RANDOM = new Random();
-    private static final int SUFFIX_LENGTH = 8;
 
     private final ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
 
@@ -96,7 +88,7 @@ public class ExternalProgram {
      */
     private Path outputPipe() {
         try {
-            final var path = Files.createTempFile(PREFIX, ".tmp");
+            final var path = Files.createTempFile("graphbrowser", ".tmp");
             final var file = path.toFile();
             processBuilder.redirectOutput(Redirect.appendTo(file));
             processBuilder.redirectError(Redirect.appendTo(file));
