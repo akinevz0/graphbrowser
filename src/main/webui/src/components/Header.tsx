@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import type { Page } from '../pages';
 import { useLocation, type Location } from 'react-router-dom';
-import { useErrorBoundary } from 'react-error-boundary';
 
 interface HeaderProps {
   links: Page[];
@@ -13,27 +12,25 @@ const findTitle = (links: Page[], location: Location): string | undefined => {
 
 const Header: FC<HeaderProps> = ({ links }) => {
   const location = useLocation()
-  const { showBoundary } = useErrorBoundary()
   const title = findTitle(links, location)
-  if (!title) {
-    showBoundary(new Error('No title found'))
-    return
-  }
-  return <>
+  const nav = (
     <nav className="w-full flex py-4">
       {links.map((link, index) => (
-        <a
-          key={index}
-          href={link.path}
-          className="mx-4 px-2 border border-gray-600 rounded-md hover:text-gray-900"
-        >
-          {link.label}
-        </a>
+        link.label ?
+          <a
+            key={index}
+            href={link.path}
+            className="mr-4 px-2 border border-gray-600 rounded-md hover:text-gray-900"
+          >
+            {link.label}
+          </a> :
+          null
       ))}
     </nav>
-    <header>
-      <h1>{title}</h1>
-    </header>
+  )
+  return <>
+    { nav }
+    { title && <header> <h1>{title}</h1> </header>}
   </>
 };
 

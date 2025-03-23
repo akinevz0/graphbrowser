@@ -1,5 +1,7 @@
+import UrlInput from "./UrlInput"
+
 const HomePageComponent = () => {
-  return <>WebUI</>
+  return <><UrlInput /></>
 }
 
 export default HomePageComponent
