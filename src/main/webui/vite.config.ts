@@ -7,6 +7,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   // depending on your application, base can also be "/"
   base: '',
+  assetsInclude: ['src/**/*.md'] ,
   plugins: [react(), viteTsconfigPaths(), tailwindcss()],
   server: {
     host: '127.0.0.1',

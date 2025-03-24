@@ -29,8 +29,8 @@ const Header: FC<HeaderProps> = ({ links }) => {
     </nav>
   )
   return <>
-    { nav }
     { title && <header> <h1>{title}</h1> </header>}
+    { nav }
   </>
 };
 

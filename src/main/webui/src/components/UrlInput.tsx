@@ -25,15 +25,14 @@ const UrlInput = () => {
     }
 
 
-    return <Field.Root validationMode="onChange" validate={validateURL} className="border border-gray-400 rounded-md py-2 mt-6 pr-2 pl-4">
+    return <Field.Root validationMode="onChange" validate={validateURL} className="border border-gray-400 rounded-md py-2 pr-2 pl-4">
         <Field.Description children={<>Navigate to a page:</>} />
+        <Field.Label className="mr-4 mb-4" children="Paste or type a URL" />
+        <Field.Control className="border border-gray-400 rounded-md" onKeyDown={onKeyDown} onPasteCapture={onPaste} />
         <Field.Error match='badInput' />
         <Field.Validity children={({ error, errors }) => (
             error ?  <> {errors.map((e, i) => <p key={i}>{e}</p>)} </> : null
         )} />
-        <br />
-        <Field.Label className="mr-4" children="Paste or type a URL" />
-        <Field.Control className="border border-gray-400 rounded-md" onKeyDown={onKeyDown} onPasteCapture={onPaste} />
     </Field.Root>
 }
 export default UrlInput

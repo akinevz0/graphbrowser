@@ -17,8 +17,8 @@ const page = (path: string, label: string | undefined, element: React.ComponentT
 
 
 const pages: Page[] = [
-    page("/", "Home", HomePageComponent),
-    page("/page", undefined, ViewPageComponent),
+    page("/", "Instructions", HomePageComponent),
+    page("/page", "Browse", ViewPageComponent),
     page("/meta", "Metadata Browser", MetaPageComponent),
 ]
 

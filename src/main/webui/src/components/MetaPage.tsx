@@ -1,7 +1,13 @@
+import useApi from "../useApi"
+
+const apiCount = "/api/count"
+
 const MetaPageComponent = () => {
+    const countResponse = useApi(apiCount)
+
     return (
         <>
-            metadata page content placeholder
+            {`there are currently ${countResponse} pages cached.`}
         </>
     )
 }

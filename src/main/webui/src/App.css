@@ -3,18 +3,36 @@
 #root {
   margin: 0 auto;
   padding: 2rem;
-  
+  width: 100%;
 }
 
-header{
-    max-width: 1280px;
+header {
+  max-width: 1280px;
+  width: 100%;
 }
 
-main{
-  width: 100vw;
+main {
+  width: 100%;
   display: flex;
+  margin-top: 1rem;
 }
 
 .card {
   padding: 2em;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 2em;
+  line-height: 1.2;
+  margin-top: 1rem;
+}
+
+h2:first-child {
+  margin-top: 0;
 }
