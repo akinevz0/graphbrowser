@@ -9,6 +9,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.quarkus:quarkus-spring-data-jpa'
+    implementation 'io.quarkus:quarkus-jdbc-h2'
     implementation 'io.quarkus:quarkus-rest-jackson'
     implementation 'io.quarkiverse.groovy:quarkus-groovy-junit5:3.18.2'
     implementation 'io.quarkus:quarkus-rest'

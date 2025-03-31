@@ -9,9 +9,9 @@ const FallbackComponent: FC<FallbackProps> = (props) => {
     <section className="error-boundary">
       <h1>App Error:</h1>
       <h5>{message ?? "Unknown error"}.</h5>
-      <p>
+      <pre>
         {stack ?? "No stack trace available."}
-      </p>
+      </pre>
       <button onClick={resetErrorBoundary}>Retry</button>
     </section>
   )

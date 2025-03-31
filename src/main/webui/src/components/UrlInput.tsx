@@ -1,7 +1,10 @@
 import { Field } from '@base-ui-components/react/field';
-import type { ClipboardEventHandler, KeyboardEventHandler } from 'react';
+import type { ClipboardEventHandler, FC, KeyboardEventHandler } from 'react';
 
-const UrlInput = () => {
+
+const UrlInput: FC<{ current: string }> = ({ current }) => {
+
+    console.log("current url is", current)
 
     const validateURL = (input: unknown) => {
         try {
@@ -28,10 +31,11 @@ const UrlInput = () => {
     return <Field.Root validationMode="onChange" validate={validateURL} className="border border-gray-400 rounded-md py-2 pr-2 pl-4">
         <Field.Description children={<>Navigate to a page:</>} />
         <Field.Label className="mr-4 mb-4" children="Paste or type a URL" />
-        <Field.Control className="border border-gray-400 rounded-md" onKeyDown={onKeyDown} onPasteCapture={onPaste} />
+        <Field.Control placeholder={current} className="border border-gray-400 rounded-md" onKeyDown={onKeyDown} onPasteCapture={onPaste} />
+        {/* <Field.Control className="border border-gray-400 rounded-md" onKeyDown={onKeyDown} onPasteCapture={onPaste} /> */}
         <Field.Error match='badInput' />
         <Field.Validity children={({ error, errors }) => (
-            error ?  <> {errors.map((e, i) => <p key={i}>{e}</p>)} </> : null
+            error ? <> {errors.map((e, i) => <p key={i}>{e}</p>)} </> : null
         )} />
     </Field.Root>
 }
