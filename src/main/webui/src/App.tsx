@@ -2,6 +2,11 @@ import type { FC } from 'react'
 import './App.css'
 import { AppRoutes } from './pages'
 import { withErrorBoundary, type ErrorBoundaryProps, type FallbackProps } from 'react-error-boundary'
+import {
+  QueryClient, QueryClientProvider
+} from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 const FallbackComponent: FC<FallbackProps> = (props) => {
   const { error: { message, stack }, resetErrorBoundary } = props
@@ -22,7 +27,9 @@ function App() {
   const AppRoutesWithErrorBoundary = withErrorBoundary(AppRoutes, errorProps)
   return (
     <>
-      <AppRoutesWithErrorBoundary />
+      <QueryClientProvider client={queryClient}>
+        <AppRoutesWithErrorBoundary />
+      </QueryClientProvider>
     </>
   )
 }

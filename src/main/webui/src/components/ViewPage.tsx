@@ -1,44 +1,50 @@
-import { useApi } from "../useApi"
 import { useLocation } from "react-router-dom"
 import UrlInput from "./UrlInput"
-import type { FC } from "react"
-import { ScrollArea } from "@base-ui-components/react"
 import { useErrorBoundary } from "react-error-boundary"
+import { Loading } from "./Loading"
+import { DataTable } from "./DataTable"
+import type { FC, ReactNode } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 const apiView = "/api/view"
 
-const DataTable: FC<{ json: string }> = ({ json }) => {
-    return <ScrollArea.Root className="h-full">
-        <ScrollArea.Viewport >
-            <pre>
-                {JSON.stringify(JSON.parse(json), null, 4)}
-            </pre>
-        </ScrollArea.Viewport>
-        <ScrollArea.Scrollbar >
-            <ScrollArea.Thumb />
-        </ScrollArea.Scrollbar>
-        <ScrollArea.Corner />
-    </ScrollArea.Root>
-}
+const fetchView = (current:string) => fetch(`${apiView}?q=${current}`).then((res) => res.text())
 
-const ViewPageComponent = () => {
+const doNotFetch = () => Promise.resolve("Waiting for a valid URL")
+
+const DatabaseViewFetch: FC<{ current: string, children: (text: string) => ReactNode }> = ({ children, current }) => {
+    // validate the URL
+    let isValidURL: boolean = false;
+    let isNullURL: boolean = false;
+    try {
+        if (!current) isNullURL = true
+        if (current && current.trim().length === 0) isNullURL = true
+        new URL(current)
+        isValidURL = true;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-empty
+    } catch (error) { }
+
     const { showBoundary } = useErrorBoundary()
+    const { isPending, error, data } = useQuery({
+        queryKey: [apiView],
+        queryFn: (isValidURL && !isNullURL) ? ()=>fetchView(current) : doNotFetch
+    })
+    if (isNullURL) return <></>
+    if (isPending) return <Loading />
+    if (error) showBoundary(error)
+    if (isValidURL) return children(data ?? "")
+    showBoundary(new Error("Query string must be a valid URL"))
+}
+const ViewPageComponent = () => {
     const { search } = useLocation()
-    const url = search.substring(1 + search.indexOf('='))
-
-    const { response, loading, text } = useApi(search && `${apiView}${search}`)
-    console.dir(response)
-    console.dir(loading)
-    console.dir(text)
-    if (response && !response.ok) {
-        showBoundary(new Error(text));
-    }
+    const current = search.substring(1 + search.indexOf('='))
     return (
         <>
-            <UrlInput current={url} />
+            <UrlInput current={current} />
             <br />
-            {/* <pre>{JSON.stringify(apiGetResponse, null, 2)}</pre> */}
-            {(response && response.ok && text) && <DataTable json={text} />}
+            <DatabaseViewFetch current={current}>
+                {(text) => (<DataTable json={text} />)}
+            </DatabaseViewFetch>
         </>
     )
 }
