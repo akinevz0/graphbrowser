@@ -1,12 +1,12 @@
 package ac.uk.k253.graphbrowser.services;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import ac.uk.k253.graphbrowser.beans.PagerTS;
-import ac.uk.k253.graphbrowser.entities.RemoteResource;
-import ac.uk.k253.graphbrowser.entities.ViewedResource;
+import ac.uk.k253.graphbrowser.entities.repositories.RemoteResourceRepository;
+import ac.uk.k253.graphbrowser.entities.repositories.ViewedResourceRepository;
+import ac.uk.k253.graphbrowser.entities.resources.RemoteResource;
+import ac.uk.k253.graphbrowser.entities.resources.ViewedResource;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -17,15 +17,25 @@ public class PageService {
     @Inject
     PagerTS pager;
 
+    @Inject
+    ViewedResourceRepository viewed;
+
+    @Inject
+    RemoteResourceRepository remote;
+
     @Transactional
-    public ViewedResource viewResource(final String resource) throws URISyntaxException, MalformedURLException {
-        final var viewed = pager.view(resource);
-        viewed.persist();
-        return viewed;
+    public ViewedResource viewResource(final String url) {
+        final var resource = viewed.findByUrlOptional(url);
+        if (resource.isPresent())
+            return resource.get();
+
+        final var dto = pager.intoDto(url);
+        return viewed.locate(dto);
     }
 
+    @Transactional
     public List<RemoteResource> getAllPages() {
-        return RemoteResource.findAll().list();
+        return remote.findAll().list();
     }
 
 }
