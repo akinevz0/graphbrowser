@@ -1,18 +1,18 @@
 package ac.uk.k253.graphbrowser.resources;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
+import java.net.*;
 import java.util.List;
+import java.util.Objects;
 
 import org.jboss.resteasy.reactive.RestQuery;
 
-import ac.uk.k253.graphbrowser.entities.*;
+import ac.uk.k253.graphbrowser.entities.resources.RemoteResource;
+import ac.uk.k253.graphbrowser.entities.resources.ViewedResource;
 import ac.uk.k253.graphbrowser.services.PageService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.resource.spi.ApplicationServerInternalException;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 
 @ApplicationScoped
 @Path("/api")
@@ -23,12 +23,18 @@ public class ApiResource {
 
     @GET
     @Path("/view")
-    public ViewedResource view(@RestQuery final String q) throws ApplicationServerInternalException {
+    @Produces(MediaType.APPLICATION_JSON)
+    public ViewedResource view(@RestQuery final String q) {
         try {
-            return service.viewResource(q);
+            if (Objects.requireNonNull(q).isBlank() || new URI(q).toURL() == null)
+                throw new MalformedURLException(String.format("%s is not a valid url", q));
         } catch (MalformedURLException | URISyntaxException e) {
-            throw new ApplicationServerInternalException("URL parse failed", e);
+            throw new IllegalArgumentException(e.getMessage(), e);
+        } catch (final NullPointerException e) {
+            throw new IllegalArgumentException("Null ?q= parameter provided", e);
         }
+        return service.viewResource(q);
+
     }
 
     @GET
