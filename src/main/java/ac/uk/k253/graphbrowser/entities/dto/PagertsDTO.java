@@ -4,30 +4,36 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import ac.uk.k253.graphbrowser.entities.ViewedResource;
-
 @JsonSerialize
 public class PagertsDTO {
-    private String url = null;
+    private String url;
 
-    private String title = null;
+    private String title;
 
     private List<PagertsResourceDTO> resources;
 
+    public String getUrl() {
+        return url;
+    }
+
     public void setUrl(final String url) {
         this.url = url;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setTitle(final String title) {
         this.title = title;
     }
 
-    public void setResources(final List<PagertsResourceDTO> resources) {
-        this.resources = resources;
+    public List<PagertsResourceDTO> getResources() {
+        return resources;
     }
 
-    public ViewedResource toViewedResource() {
-        return new ViewedResource(url, title, resources.stream().map(PagertsResourceDTO::toRemoteResource).toList());
+    public void setResources(final List<PagertsResourceDTO> resources) {
+        this.resources = resources;
     }
 
 }
