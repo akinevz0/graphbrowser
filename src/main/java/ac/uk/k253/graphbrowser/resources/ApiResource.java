@@ -28,13 +28,12 @@ public class ApiResource {
         try {
             if (Objects.requireNonNull(q).isBlank() || new URI(q).toURL() == null)
                 throw new MalformedURLException(String.format("%s is not a valid url", q));
+            return service.viewResource(q);
         } catch (MalformedURLException | URISyntaxException e) {
-            throw new IllegalArgumentException(e.getMessage(), e);
+            throw new IllegalArgumentException(String.format("q=%s", q), e);
         } catch (final NullPointerException e) {
             throw new IllegalArgumentException("Null ?q= parameter provided", e);
         }
-        return service.viewResource(q);
-
     }
 
     @GET

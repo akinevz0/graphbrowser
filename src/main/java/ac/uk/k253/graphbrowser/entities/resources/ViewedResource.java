@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 public class ViewedResource extends RemoteResource {
 
     @Column(nullable = false)
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name="REMOTE_RESOURCE_LINK")
     private List<RemoteResource> resources;
 

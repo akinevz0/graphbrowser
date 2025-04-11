@@ -1,5 +1,6 @@
 package ac.uk.k253.graphbrowser.entities.repositories;
 
+import java.net.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,12 +11,10 @@ import org.jboss.logging.Logger;
 import ac.uk.k253.graphbrowser.entities.dto.PagertsDTO;
 import ac.uk.k253.graphbrowser.entities.resources.RemoteResource;
 import ac.uk.k253.graphbrowser.entities.resources.ViewedResource;
+import ac.uk.k253.graphbrowser.services.URLService;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import io.quarkus.narayana.jta.QuarkusTransaction;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import jakarta.transaction.Transactional.TxType;
 
 @ApplicationScoped
 public class ViewedResourceRepository implements PanacheRepository<ViewedResource> {
@@ -25,13 +24,16 @@ public class ViewedResourceRepository implements PanacheRepository<ViewedResourc
     @Inject
     RemoteResourceRepository repository;
 
-    public Optional<ViewedResource> findByUrlOptional(final String url) {
+    @Inject
+    URLService urlService;
+
+    public Optional<ViewedResource> findByUrlOptional(final URL url) {
         return find("url", url).firstResultOptional();
     }
 
-    @Transactional(value = TxType.REQUIRES_NEW)
     public ViewedResource locate(final PagertsDTO pagertsDTO) {
-        final var url = pagertsDTO.getUrl();
+        final var rawUrl = pagertsDTO.getUrl();
+        final var url = clean(rawUrl);
         LOGGER.info("locating for URL in viewed");
         final var title = pagertsDTO.getTitle();
 
@@ -41,7 +43,8 @@ public class ViewedResourceRepository implements PanacheRepository<ViewedResourc
             return viewed.get();
 
         final var resources = pagertsDTO.getResources().stream().map(repository::locate).toList();
-        LOGGER.info("constructing new resource: "+Stream.of(resources.toArray()).map(Object::toString).collect(Collectors.joining(",\n")));
+        LOGGER.info("constructing new resource: "
+                + Stream.of(resources.toArray()).map(Object::toString).collect(Collectors.joining(",\n")));
 
         final var remote = repository.findByUrlOptional(url);
         if (remote.isPresent()) {
@@ -57,6 +60,10 @@ public class ViewedResourceRepository implements PanacheRepository<ViewedResourc
         LOGGER.info("persisting viewed " + resource);
         persist(resource);
         return resource;
+    }
+
+    private URL clean(final String url) {
+        return urlService.clean(url);
     }
 
     private ViewedResource view(final RemoteResource existing, final String title,

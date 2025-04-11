@@ -6,12 +6,15 @@ const UrlInput: FC<{ current: string }> = ({ current }) => {
 
     console.log("current url is", current)
 
-    const validateURL = (input: unknown) => {
+    const urlErrors = (input: unknown) => {
+        console.log("checking for url errors " +input)
+        console.log(typeof (input))
         try {
             // TODO: add a fetch with timeout to check whether the website is responding
             if (typeof input === "string" && new URL(input).toString()) { return null }
             // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-empty
         } catch (e) { }
+        console.log("invalid url")
         return `Invalid input URL: ${input}`.toString()
     }
 
@@ -23,12 +26,13 @@ const UrlInput: FC<{ current: string }> = ({ current }) => {
 
     const onPaste: ClipboardEventHandler = (event): void => {
         const { target, clipboardData: { items: [text] } } = event
+        console.log("firing onPaste, " + (target instanceof HTMLInputElement))
         if (target instanceof HTMLInputElement)
-            text.getAsString((data) => redirect(viewPage(data), validateURL(data) === null))
+            text.getAsString((data) => redirect(viewPage(data), !urlErrors(data)))
     }
 
 
-    return <Field.Root validationMode="onChange" validate={validateURL} className="border border-gray-400 rounded-md py-2 pr-2 pl-4">
+    return <Field.Root validationMode="onChange" validate={urlErrors} className="border border-gray-400 rounded-md py-2 pr-2 pl-4">
         <Field.Description children={<>Navigate to a page:</>} />
         <Field.Label className="mr-4 mb-4" children="Paste or type a URL" />
         <Field.Control placeholder={current} className="border border-gray-400 rounded-md" onKeyDown={onKeyDown} onPasteCapture={onPaste} />

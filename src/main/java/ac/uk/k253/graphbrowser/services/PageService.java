@@ -1,5 +1,7 @@
 package ac.uk.k253.graphbrowser.services;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import ac.uk.k253.graphbrowser.beans.PagerTS;
@@ -23,13 +25,17 @@ public class PageService {
     @Inject
     RemoteResourceRepository remote;
 
-    @Transactional
-    public ViewedResource viewResource(final String url) {
-        final var resource = viewed.findByUrlOptional(url);
-        if (resource.isPresent())
-            return resource.get();
+    @Inject
+    URLService urlService;
 
-        final var dto = pager.intoDto(url);
+    @Transactional
+    public ViewedResource viewResource(final String resource) throws MalformedURLException, URISyntaxException {
+        final var url = urlService.clean(resource);
+        final var found = viewed.findByUrlOptional(url);
+        if (found.isPresent())
+            return found.get();
+
+        final var dto = pager.intoDto(resource);
         return viewed.locate(dto);
     }
 
