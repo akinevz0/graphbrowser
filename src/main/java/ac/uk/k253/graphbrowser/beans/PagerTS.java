@@ -11,7 +11,7 @@ import jakarta.enterprise.inject.Default;
 
 @JavaBean
 @Default
-public class PagerTS implements AutoCloseable  {
+public class PagerTS implements AutoCloseable {
 
     private final ExternalProgram pagerts;
 
@@ -31,9 +31,11 @@ public class PagerTS implements AutoCloseable  {
             if (statusCode != 0)
                 throw new PagerRunException("Program exited abnormally: " + statusCode);
             final var cache = pagerts.getOutput(PagertsDTO[].class)[0];
+            if(cache.getError() != null)
+                throw new IOException(cache.getError());
             return cache;
         } catch (final IOException e) {
-            throw new PagerRunException("Could not parse pagerts output", e);
+            throw new PagerRunException("Could not parse pagerts output: "+e.getMessage(), e);
         } catch (InterruptedException | ExecutionException e) {
             throw new PagerRunException("Could not run pagerts", e);
         }

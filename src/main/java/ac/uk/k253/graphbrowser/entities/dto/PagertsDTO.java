@@ -2,6 +2,7 @@ package ac.uk.k253.graphbrowser.entities.dto;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize
@@ -9,6 +10,8 @@ public class PagertsDTO {
     private String url;
 
     private String title;
+
+    private String error;
 
     private List<PagertsResourceDTO> resources;
 
@@ -34,6 +37,14 @@ public class PagertsDTO {
 
     public void setResources(final List<PagertsResourceDTO> resources) {
         this.resources = resources;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(final String error) {
+        this.error = error;
     }
 
 }
