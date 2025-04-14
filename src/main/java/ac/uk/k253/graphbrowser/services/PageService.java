@@ -1,7 +1,5 @@
 package ac.uk.k253.graphbrowser.services;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import ac.uk.k253.graphbrowser.beans.PagerTS;
@@ -9,6 +7,7 @@ import ac.uk.k253.graphbrowser.entities.repositories.RemoteResourceRepository;
 import ac.uk.k253.graphbrowser.entities.repositories.ViewedResourceRepository;
 import ac.uk.k253.graphbrowser.entities.resources.RemoteResource;
 import ac.uk.k253.graphbrowser.entities.resources.ViewedResource;
+import ac.uk.k253.graphbrowser.services.URLService.SanitisationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -29,7 +28,7 @@ public class PageService {
     URLService urlService;
 
     @Transactional
-    public ViewedResource viewResource(final String resource) throws MalformedURLException, URISyntaxException {
+    public ViewedResource viewResource(final String resource) throws SanitisationException {
         final var url = urlService.clean(resource);
         final var found = viewed.findByUrlOptional(url);
         if (found.isPresent())
