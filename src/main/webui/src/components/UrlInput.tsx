@@ -7,14 +7,14 @@ const UrlInput: FC<{ current: string }> = ({ current }) => {
     console.log("current url is", current)
 
     const urlErrors = (input: unknown) => {
-        console.log("checking for url errors " +input)
+        console.log("checking for url errors " + input)
         console.log(typeof (input))
         try {
             // TODO: add a fetch with timeout to check whether the website is responding
             if (typeof input === "string" && new URL(input).toString()) { return null }
             // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-empty
         } catch (e) { }
-        console.log("invalid url")
+        console.log("invalid url " + input)
         return `Invalid input URL: ${input}`.toString()
     }
 
@@ -25,17 +25,18 @@ const UrlInput: FC<{ current: string }> = ({ current }) => {
     }
 
     const onPaste: ClipboardEventHandler = (event): void => {
-        const { target, clipboardData: { items: [text] } } = event
+        const { target } = event
         console.log("firing onPaste, " + (target instanceof HTMLInputElement))
         if (target instanceof HTMLInputElement)
-            text.getAsString((data) => redirect(viewPage(data), !urlErrors(data)))
+            setTimeout(() => {
+                redirect(viewPage(target.value), contains(target.dataset, "valid"))
+            },0 )
     }
 
 
-    return <Field.Root validationMode="onChange" validate={urlErrors} className="border border-gray-400 rounded-md py-2 pr-2 pl-4">
-        <Field.Description children={<>Navigate to a page:</>} />
-        <Field.Label className="mr-4 mb-4" children="Paste or type a URL" />
-        <Field.Control placeholder={current} className="border border-gray-400 rounded-md" onKeyDown={onKeyDown} onPasteCapture={onPaste} />
+    return <Field.Root validationMode="onChange" validate={urlErrors} className="w-full border border-gray-400 rounded-md py-2 pr-2 pl-4">
+        <Field.Description children="Navigate to a page:" className="w-full" />
+        <Field.Control placeholder={current} className="w-full border border-gray-400 rounded-md px-1" onKeyDown={onKeyDown} onPasteCapture={onPaste} />
         {/* <Field.Control className="border border-gray-400 rounded-md" onKeyDown={onKeyDown} onPasteCapture={onPaste} /> */}
         <Field.Error match='badInput' />
         <Field.Validity children={({ error, errors }) => (
