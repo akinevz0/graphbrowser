@@ -13,11 +13,14 @@
     "@base-ui-components/react": "^1.0.0-alpha.7",
     "@tailwindcss/vite": "^4.0.15",
     "@tanstack/react-query": "^5.71.10",
+    "jsdom": "^26.0.0",
     "markdown-to-jsx": "^7.7.4",
     "react": "^19",
     "react-dom": "^19",
     "react-error-boundary": "^5.0.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^6",
+    "remark-gfm": "^4.0.1",
     "tailwindcss": "^4.0.15"
   },
   "devDependencies": {
