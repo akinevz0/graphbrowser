@@ -1,11 +1,10 @@
 package ac.uk.k253.graphbrowser.entities.repositories;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
 import ac.uk.k253.graphbrowser.entities.dto.*;
-import ac.uk.k253.graphbrowser.entities.resources.RemoteResource;
 import ac.uk.k253.graphbrowser.services.URLService;
 import io.quarkus.narayana.jta.QuarkusTransaction;
 import io.quarkus.test.junit.QuarkusTest;
@@ -26,7 +25,7 @@ public class RemoteResourceRepositoryTest {
             final var remote = repository.locate(dto);
 
             repository.persist(remote);
-            final var url = urlService.clean("https://akinevz.com/");
+            final var url = assertDoesNotThrow(()->urlService.clean("https://akinevz.com/"));
             final var result = repository.findByUrlOptional(url);
             assertEquals(remote.getTitle(), result.get().getTitle());
         });
