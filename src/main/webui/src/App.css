@@ -12,9 +12,13 @@ header {
 }
 
 main {
-  width: 100%;
   display: flex;
   margin-top: 1rem;
+}
+
+main > section {
+  max-width: 100%;
+  width: 100%;
 }
 
 .card {
@@ -35,4 +39,23 @@ h2 {
 
 h2:first-child {
   margin-top: 0;
+}
+
+.codeStyle{
+  @apply bg-black;
+  @apply text-gray-400;
+  @apply rounded-lg;
+  @apply p-2;
+  @apply py-6;
+  @apply font-mono;
+  @apply overflow-x-scroll;
+
+  & ul {
+    @apply list-inside list-item;
+  }
+
+  & li {
+    @apply px-4;
+  }
+  /* @apply overflow-auto; */
 }
