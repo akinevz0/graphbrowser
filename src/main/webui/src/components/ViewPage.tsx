@@ -38,15 +38,16 @@ const DatabaseViewFetch: FC<{ current: string, children: (text: string) => React
 const ViewPageComponent = () => {
     const { search } = useLocation()
     const current = search.substring(1 + search.indexOf('='))
-    return (
-        <>
-            <UrlInput current={current} />
+    const queryUrl = decodeURIComponent(current)
+    console.log("decoded", queryUrl)
+    return <>
+            <UrlInput current={queryUrl} />
             <br />
-            <DatabaseViewFetch current={current}>
+            <DatabaseViewFetch current={queryUrl}>
                 {(text) => (<DataTable json={text} />)}
             </DatabaseViewFetch>
         </>
-    )
+    
 }
 
 export default ViewPageComponent
