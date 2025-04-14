@@ -14,7 +14,7 @@ import jakarta.persistence.*;
 @DiscriminatorValue("remote")
 public class RemoteResource extends PanacheEntity {
 
-    @Column(nullable = false, length = 5196)
+    @Column(length = 5196)
     private URL url;
 
     @Column(nullable = false)

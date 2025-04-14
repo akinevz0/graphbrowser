@@ -12,6 +12,7 @@ import ac.uk.k253.graphbrowser.entities.dto.PagertsDTO;
 import ac.uk.k253.graphbrowser.entities.resources.RemoteResource;
 import ac.uk.k253.graphbrowser.entities.resources.ViewedResource;
 import ac.uk.k253.graphbrowser.services.URLService;
+import ac.uk.k253.graphbrowser.services.URLService.SanitisationException;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -63,7 +64,11 @@ public class ViewedResourceRepository implements PanacheRepository<ViewedResourc
     }
 
     private URL clean(final String url) {
-        return urlService.clean(url);
+        try {
+            return urlService.clean(url);
+        } catch (final SanitisationException e) {
+            return null;
+        }
     }
 
     private ViewedResource view(final RemoteResource existing, final String title,

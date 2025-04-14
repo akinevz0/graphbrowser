@@ -8,6 +8,7 @@ import org.jboss.logging.Logger;
 import ac.uk.k253.graphbrowser.entities.dto.PagertsResourceDTO;
 import ac.uk.k253.graphbrowser.entities.resources.RemoteResource;
 import ac.uk.k253.graphbrowser.services.URLService;
+import ac.uk.k253.graphbrowser.services.URLService.SanitisationException;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -45,7 +46,11 @@ public class RemoteResourceRepository implements PanacheRepository<RemoteResourc
     }
 
     private URL clean(final String url) {
-        return urlService.clean(url);
+        try {
+            return urlService.clean(url);
+        } catch (final SanitisationException e) {
+            return null;
+        }
     }
 
 }

@@ -9,6 +9,7 @@ import org.jboss.resteasy.reactive.RestQuery;
 import ac.uk.k253.graphbrowser.entities.resources.RemoteResource;
 import ac.uk.k253.graphbrowser.entities.resources.ViewedResource;
 import ac.uk.k253.graphbrowser.services.PageService;
+import ac.uk.k253.graphbrowser.services.URLService.SanitisationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -33,6 +34,8 @@ public class ApiResource {
             throw new IllegalArgumentException(String.format("q=%s", q), e);
         } catch (final NullPointerException e) {
             throw new IllegalArgumentException("Null ?q= parameter provided", e);
+        } catch (final SanitisationException e) {
+            throw new IllegalArgumentException(e.getMessage(), e);
         }
     }
 
