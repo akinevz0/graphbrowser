@@ -1,4 +1,4 @@
-import { Field } from '@base-ui-components/react/field';
+import { Field as BaseUIField } from '@base-ui-components/react/field';
 import type { ClipboardEventHandler, FC, KeyboardEventHandler } from 'react';
 
 
@@ -34,15 +34,15 @@ const UrlInput: FC<{ current: string }> = ({ current }) => {
     }
 
 
-    return <Field.Root validationMode="onChange" validate={urlErrors} className="w-full border border-gray-400 rounded-md py-2 pr-2 pl-4">
-        <Field.Description children="Navigate to a page:" className="w-full" />
-        <Field.Control placeholder={current} className="w-full border border-gray-400 rounded-md px-1" onKeyDown={onKeyDown} onPasteCapture={onPaste} />
+    return <BaseUIField.Root validationMode="onChange" validate={urlErrors} className="w-full border border-gray-400 rounded-md py-2 pr-2 pl-4">
+        <BaseUIField.Description children="Navigate to a page:" className="w-full" />
+        <BaseUIField.Control placeholder={current} className="w-full border border-gray-400 rounded-md px-1" onKeyDown={onKeyDown} onPasteCapture={onPaste} />
         {/* <Field.Control className="border border-gray-400 rounded-md" onKeyDown={onKeyDown} onPasteCapture={onPaste} /> */}
-        <Field.Error match='badInput' />
-        <Field.Validity children={({ error, errors }) => (
+        <BaseUIField.Error match='badInput' />
+        <BaseUIField.Validity children={({ error, errors }) => (
             error ? <> {errors.map((e, i) => <p key={i}>{e}</p>)} </> : null
         )} />
-    </Field.Root>
+    </BaseUIField.Root>
 }
 export default UrlInput
 
