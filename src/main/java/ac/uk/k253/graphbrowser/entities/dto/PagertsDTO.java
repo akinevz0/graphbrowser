@@ -2,7 +2,6 @@ package ac.uk.k253.graphbrowser.entities.dto;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize
