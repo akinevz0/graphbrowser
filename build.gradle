@@ -27,8 +27,8 @@ dependencies {
     testImplementation 'io.quarkus:quarkus-junit5'
 }
 
-group 'ac.uk.k253'
-version '0.0.1'
+group = 'ac.uk.sussex.kn253'
+version = '0.1.0'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
