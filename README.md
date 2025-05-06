@@ -69,6 +69,6 @@ There is currently no welcome page. Contributions are welcome to the `src/main/w
 
 ## Screenshots
 
-![image1](Screenshot 2025-05-06 123055.png)
+![image1](./doc/Screenshot 2025-05-06 123055.png)
 
 
