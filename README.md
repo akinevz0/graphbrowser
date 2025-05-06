@@ -69,6 +69,6 @@ There is currently no welcome page. Contributions are welcome to the `src/main/w
 
 ## Screenshots
 
-![image1](./doc/Screenshot 2025-05-06 123055.png)
+![Usage](https://github.com/akinevz0/graphbrowser/blob/f29c361f14bd7beecffc34f8ad8afd53f8aae49e/doc/Screenshot%202025-05-06%20123055.png)
 
 
