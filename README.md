@@ -48,9 +48,10 @@ Alternatively, if Quarkus CLI is not installed:
 
 ```bash
 cd graphbrowser
-./gradlew quarkusBuild
-./gradlew quarkusRun
+./gradlew clean quarkusBuild quarkusRun
 ```
+
+Hint: check whether gradle is installed on the system.
 
 ## Configuring GraphBrowser
 
