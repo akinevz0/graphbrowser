@@ -66,3 +66,9 @@ Upon first running the application, it will take a while to warm up. Please allo
 ## Bugs and TODOs
 
 There is currently no welcome page. Contributions are welcome to the `src/main/webui/src/index.md` file.
+
+## Screenshots
+
+![image1](Screenshot 2025-05-06 123055.png)
+
+
