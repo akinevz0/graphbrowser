@@ -71,4 +71,14 @@ There is currently no welcome page. Contributions are welcome to the `src/main/w
 
 ![Usage](https://github.com/akinevz0/graphbrowser/blob/f29c361f14bd7beecffc34f8ad8afd53f8aae49e/doc/Screenshot%202025-05-06%20123055.png)
 
+this application requires that pagerts is installed on the system.
+
+the pagerts is a sibling project. it can be found at akinevz0/pagerts.
+
+global installation of the project can be done using `npm i -g ./` inside of pagerts project folder.
+
+a devcontainer definition is included which can be brought up using `devcontainer-cli up --workspace .`
+
+generated sources from the development cycle have been manually removed from this project. upon reopening the environment, the compiler suite may complain that it cannot locate them.
+
 
