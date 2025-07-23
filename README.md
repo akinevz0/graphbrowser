@@ -1,42 +1,63 @@
 # README
 
-This project aims to develop an efficient application for downloading and presenting the user a list of resources that a webpage links to on the Internet.
+PagerTS is a command line utility that provides the user with a portable tool for transforming URLs into a JSON Objects.
+The output of this command represents the set of navigable items within a webpage.
+These can be used to represent a hierarchy of web objects linking from page to page within the World Wide Web.
 
-PagerTS is a command line utility that provides the user with a portable tool for transforming an URL into a JSON Object. The output of this command represents the navigable items within a webpage.
+GraphBrowser is the graphical user interface to PagerTS using Quarkus and web technologies.
 
-## Usage
 
-To use GraphBrowser, first install PagerTS. 
+## Dependencies
+
+To use this project, first clone [https://github.com/akinevz0/GraphBrowser](Graphbrowser):
+
+```bash
+mkdir graphbrowser && cd graphbrowser
+git clone https://github.com/akinevz0/GraphBrowser ./
+```
+
+Then you will need to install `pagerts` as a global system dependency using node package manager.
+
+```bash
+npm i -g pagerts
+```
 
 ### Installing PagerTS
 
-Run it in the command line as:
+To use pagerts as a command line utility, it must first be globally installed using NPM.
+
+You may wish to either clone the repo or install it from NPM.
 
 ```bash
+git clone https://github.com/akinevz0/pagerts
 cd pagerts
+npm run build
 npm install -g ./
+# or alternatively
+npm install -g pagerts
+```
+
+You will now have a system-wide application under the name of `pagerts`.
+
+```bash
 pagerts -h
 ```
 
-It will be made available as a system-wide application under the name of `pagerts`
-
-To run the PagerTS application from within the project folder:
-
-```bash
-npm start -- https?://...
-```
+Pagerts comes with a standard CLI arg parsing library.
 
 ### PagerTS Output
 
-The output encodes a dependency list of resources. It is parsed using JSDOM library and returned to the user as an object annotated with fields `title`, `url`, `resources`.
+The output encodes a dependency list of resources. For each input URL, pagerts will produce a object.
 
-The last field represents a list of tuples, mapping name of the resource to a url.
+Each URL is parsed using the JSDOM library and returned to the user as an object annotated with fields `title`, `url`, `resources`.
 
-The name is extracted from the readable text on the page.
+The `resources` field maps a human-readable name of the resource to a url.
+
+The name is extracted from the readable text on the page, using a priority list of tag properties.
 
 ### Installing GraphBrowser
 
-The application can be installed using:
+The GraphBrowser application can be installed using the Quarkus CLI app:
 
 ```bash
 cd graphbrowser
@@ -57,28 +78,20 @@ Hint: check whether gradle is installed on the system.
 
 GraphBrowser configuration is located in `src/main/resources/application.properties`.
 
-Default port can be configured: please see [quarkus documentation](https://quarkus.io/guides/http-reference)
+Default port can be configured at build time or runtime: please see [quarkus documentation on HTTP](https://quarkus.io/guides/http-reference) and [environment variables](https://quarkus.io/guides/config-reference)
 
 ## Running GraphBrowser
 
-Upon first running the application, it will take a while to warm up. Please allow up to 2 minutes for the first query to return a result.
+Before running the application please ensure that `pagerts` is installed. 
+
+Having `pagerts` installed from NPM registry will result in faster response time, as the CLI is invoked for every webpage.
+
+Current implementation (as of 2025) results in much slower node startup if installed from local folder.
 
 ## Bugs and TODOs
 
-There is currently no welcome page. Contributions are welcome to the `src/main/webui/src/index.md` file.
+Welcome page contributions can be added to the `src/main/webui/src/index.md` file.
 
 ## Screenshots
 
 ![Usage](https://github.com/akinevz0/graphbrowser/blob/f29c361f14bd7beecffc34f8ad8afd53f8aae49e/doc/Screenshot%202025-05-06%20123055.png)
-
-this application requires that pagerts is installed on the system.
-
-the pagerts is a sibling project. it can be found at akinevz0/pagerts.
-
-global installation of the project can be done using `npm i -g ./` inside of pagerts project folder.
-
-a devcontainer definition is included which can be brought up using `devcontainer-cli up --workspace .`
-
-generated sources from the development cycle have been manually removed from this project. upon reopening the environment, the compiler suite may complain that it cannot locate them.
-
-
