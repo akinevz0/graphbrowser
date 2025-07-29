@@ -1,11 +1,14 @@
 # README
 
+This project aims to develop a software package that will enable its users to visualise page dependencies without 
+having to view the page content.
+
 PagerTS is a command line utility that provides the user with a portable tool for transforming URLs into a JSON Objects.
-The output of this command represents the set of navigable items within a webpage.
-These can be used to represent a hierarchy of web objects linking from page to page within the World Wide Web.
 
 GraphBrowser is the graphical user interface to PagerTS using Quarkus and web technologies.
 
+The output of the CLI represents the set of navigable items within a webpage.
+These can be used to represent a hierarchy of web objects linking from page to page within the World Wide Web.
 
 ## Dependencies
 
