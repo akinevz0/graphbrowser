@@ -3,7 +3,7 @@
 This project aims to develop a software package that will enable its users to visualise page dependencies without 
 having to view the page content.
 
-PagerTS is a command line utility that provides the user with a portable tool for transforming URLs into a JSON Objects.
+PagerTS is a command line utility that provides the user with a portable tool for transforming URLs into JSON.
 
 GraphBrowser is the graphical user interface to PagerTS using Quarkus and web technologies.
 
